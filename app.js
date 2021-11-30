@@ -3,10 +3,12 @@ import dotenv from "dotenv";
 import connectDB from "./db/connect.js";
 import users from "./routes/users.js";
 import notFound from "./middleware/not-found.js";
+import cors from "cors";
 const app = express();
 dotenv.config();
 
 // middleware
+app.use(cors());
 app.use(express.json());
 
 app.get("/hello", (req, res) => {
@@ -16,7 +18,7 @@ app.get("/hello", (req, res) => {
 // routes
 app.use("/api/v1/users", users);
 
-app.use(notFound);
+// app.use(notFound);
 
 const port = process.env.PORT || 3000;
 
