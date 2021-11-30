@@ -11,10 +11,6 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
-app.get("/hello", (req, res) => {
-  res.send("hello world");
-});
-
 // routes
 app.use("/api/v1/users", users);
 
