@@ -45,6 +45,25 @@ const getProduct = async (req, res) => {
   }
 };
 
+const getProductByName = async (req, res) => {
+  try {
+    const title = req.params.title;
+    const newTitle = new RegExp(
+      title[0].toUpperCase() + title.slice(1).toLocaleLowerCase(),
+      "i"
+    );
+    const product = await Product.find({ title: newTitle });
+    if (!product || product.length == 0) {
+      return res
+        .status(404)
+        .json({ msg: `no product with the name: ${title}` });
+    }
+    res.status(200).json({ nbHits: product.length, product });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
 const getProductCategory = async (req, res) => {
   try {
     const category = await Product.distinct("category");
@@ -68,10 +87,25 @@ const getProductInCategory = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { id: productId } = req.params;
+    const product = await Product.findOneAndDelete({ _id: productId });
+    if (!product) {
+      res.status(404).json({ msg: `no such product` });
+    }
+    res.status(200).json({ product: null, status: "success" });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
 export {
   getAllProducts,
   createProduct,
   getProduct,
+  getProductByName,
   getProductCategory,
   getProductInCategory,
+  deleteProduct,
 };

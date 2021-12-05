@@ -47,4 +47,15 @@ const getCartByUserId = async (req, res) => {
   }
 };
 
-export { getAllCart, createCart, getCart, getCartByUserId };
+const deleteCart = async (req, res) => {
+  try {
+    const cartId = req.params._id;
+    const cart = await Cart.findOneAndDelete({ cartId });
+    if (!cart) res.status(404).json({ msg: "cart doest not exist" });
+    res.status(200).json({ cart: null, status: "success" });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
+export { getAllCart, createCart, getCart, getCartByUserId, deleteCart };
