@@ -1,4 +1,8 @@
 import User from "../models/user.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const getAllUsers = async (req, res) => {
   try {
@@ -11,7 +15,34 @@ const getAllUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const users = await User.create(req.body);
+    const { name, email, password } = req.body;
+
+    if (!(name && email && password)) {
+      return res.status(400).json({ msg: "All input is required" });
+    }
+
+    const oldUser = await User.findOne({ email });
+    if (oldUser) {
+      return res.status(409).json({ msg: "User Already Exist. Please Login" });
+    }
+
+    const encryptedPassword = bcrypt.hash(password, 10);
+
+    const users = await User.create({
+      name,
+      email: email.toLowerCase(),
+      password: encryptedPassword,
+    });
+
+    // create token
+    const token = jwt.sign(
+      { userId: users._id, email },
+      process.env.TOKEN_KEY,
+      { expiresIn: "2h" }
+    );
+
+    users.token = token;
+
     res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ msg: error });
