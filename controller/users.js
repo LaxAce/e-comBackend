@@ -38,14 +38,14 @@ const createUser = async (req, res) => {
     const token = jwt.sign(
       { userId: users._id, email },
       process.env.TOKEN_KEY,
-      { expiresIn: "2h" }
+      { expiresIn: "1h" }
     );
 
     users.token = token;
 
     res.status(200).json({ users });
   } catch (error) {
-    res.status(500).json({ msg: error });
+    res.status(500).json(error.message);
   }
 
   // User.create(req.body)
