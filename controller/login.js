@@ -11,9 +11,9 @@ const login = async (req, res) => {
     console.log(email, password);
     console.log(!(email && password));
 
-    if (!(email && password)) {
-      return res.status(400).json({ msg: "All inputs are required" });
-    }
+    // if (!(email && password)) {
+    //   return res.status(400).json({ msg: "All inputs are required" });
+    // }
 
     console.log("yes");
     const user = await User.findOne({ email });
