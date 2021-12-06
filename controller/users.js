@@ -26,12 +26,12 @@ const createUser = async (req, res) => {
       return res.status(409).json({ msg: "User Already Exist. Please Login" });
     }
 
-    const encryptedPassword = bcrypt.hash(password, 10);
+    // const encryptedPassword = bcrypt.hash(password, 10);
 
     const users = await User.create({
       name,
       email: email.toLowerCase(),
-      password: encryptedPassword,
+      password,
     });
 
     // create token

@@ -14,18 +14,18 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    minlength: 6,
   },
   token: {
     type: String,
   },
 });
 
-// userSchema.pre("save", function (next) {
-//   if (this.isModified("password")) {
-//     this.password = bcrypt.hashSync(this.password, 10);
-//   }
-//   next();
-// });
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
 // userSchema.methods.comparePassword = function (password) {
 //   return bcrypt.compareSync(password, this.password);

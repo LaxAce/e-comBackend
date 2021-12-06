@@ -7,6 +7,7 @@ import carts from "./routes/carts.js";
 import login from "./routes/login.js";
 import auth from "./middleware/auth.js";
 import notFound from "./middleware/not-found.js";
+import cookieParser from "cookie-parser";
 
 import cors from "cors";
 const app = express();
@@ -15,6 +16,7 @@ dotenv.config();
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // routes
 app.use("/api/v1/users", users);
@@ -27,7 +29,7 @@ app.get("/api/v1/welcome", auth, (req, res) => {
 });
 app.use(notFound);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const start = async () => {
   try {
