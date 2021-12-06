@@ -8,14 +8,18 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log(email, password);
+    console.log(!(email && password));
+
     if (!(email && password)) {
-      res.status(400).json({ msg: "All input is required..." });
+      return res.status(400).json({ msg: "All inputs are required" });
     }
 
+    console.log("yes");
     const user = await User.findOne({ email });
 
     if (user && user.comparePassword(password)) {
-      console.log(user.comparePassword(password));
+      // console.log(user.comparePassword(password));
 
       const token = jwt.sign(
         { userId: user._id, email },
