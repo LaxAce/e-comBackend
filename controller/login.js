@@ -9,7 +9,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-      res.status(400).json({ msg: "All input is required" });
+      res.status(400).json({ msg: "All input is required..." });
     }
 
     const user = await User.findOne({ email });
