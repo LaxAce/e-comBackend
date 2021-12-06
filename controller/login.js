@@ -14,7 +14,9 @@ const auth = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && user.comparePassword(password)) {
+      console.log(user.comparePassword(password));
+
       const token = jwt.sign(
         { userId: user._id, email },
         process.env.TOKEN_KEY,

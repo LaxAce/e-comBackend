@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-const maxAge = 1000 * 60 * 60 * 24;
+const maxAge = 3 * 60 * 60 * 24;
 
 const getAllUsers = async (req, res) => {
   try {
@@ -43,8 +43,8 @@ const createUser = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    // users.token = token;
-    res.cookie("jwt", token, { httpOnly: true, maxAge });
+    users.token = token;
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
     res.status(200).json({ users });
   } catch (error) {
