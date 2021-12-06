@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 dotenv.config();
 
-const auth = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -33,4 +33,4 @@ const auth = async (req, res) => {
   }
 };
 
-export default auth;
+export default login;
