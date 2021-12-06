@@ -43,9 +43,8 @@ const createUser = async (req, res) => {
       { expiresIn: "2h" }
     );
 
+    // users.token = token;
     res.cookie("jwt", token, { httpOnly: true, maxAge });
-
-    users.token = token;
 
     res.status(200).json({ users });
   } catch (error) {
