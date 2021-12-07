@@ -4,11 +4,22 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 dotenv.config();
 
+const maxAge = 3 * 24 * 60 * 60;
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.login(email, password);
+
+    const token = jwt.sign(
+      { id: user._id },
+      "this is a token and i hope it works this time",
+      { expiresIn: maxAge }
+    );
+
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+
     res.status(200).json({ user });
 
     // console.log(email, password);
