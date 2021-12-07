@@ -5,7 +5,7 @@ import users from "./routes/users.js";
 import products from "./routes/products.js";
 import carts from "./routes/carts.js";
 import login from "./routes/login.js";
-import auth from "./middleware/auth.js";
+import { verifyToken } from "./middleware/auth.js";
 import notFound from "./middleware/not-found.js";
 import cookieParser from "cookie-parser";
 
@@ -20,13 +20,13 @@ app.use(cookieParser());
 
 // routes
 app.use("/api/v1/users", users);
-app.use("/api/v1/products", products);
+app.use("/api/v1/products", verifyToken, products);
 app.use("/api/v1/carts", carts);
 app.use("/api/v1/login", login);
 
-app.get("/api/v1/welcome", auth, (req, res) => {
-  return res.status(200).send("Welcome 🙌 ");
-});
+// app.get("/api/v1/welcome", auth, (req, res) => {
+//   return res.status(200).send("Welcome 🙌 ");
+// });
 app.use(notFound);
 
 const port = process.env.PORT || 3001;
