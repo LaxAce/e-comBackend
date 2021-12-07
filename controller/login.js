@@ -29,7 +29,7 @@ const login = async (req, res) => {
 
     user.token = token;
 
-    res.status(200).json({ user });
+    res.status(200).json({ data: token });
 
     // console.log(email, password);
     // console.log(!(email && password));
