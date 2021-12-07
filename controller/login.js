@@ -12,16 +12,22 @@ const login = async (req, res) => {
 
     const user = await User.login(email, password);
 
-    const token = jwt.sign(
-      { id: user._id },
-      "this is a token and i hope it works this time",
-      { expiresIn: maxAge }
-    );
+    // const token = jwt.sign(
+    //   { id: user._id },
+    //   "this is a token and i hope it works this time",
+    //   { expiresIn: maxAge }
+    // );
 
-    console.log(token);
-    console.log("token is mad");
+    // console.log(token);
+    // console.log("token is mad");
 
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+    const token = jwt.sign({ userId: user._id, email }, process.env.TOKEN_KEY, {
+      expiresIn: "2h",
+    });
+
+    user.token = token;
 
     res.status(200).json({ user });
 
