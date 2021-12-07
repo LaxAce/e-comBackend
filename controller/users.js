@@ -45,8 +45,9 @@ const createUser = async (req, res) => {
 
     users.token = token;
     // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    console.log(users);
 
-    res.status(200).json({ users });
+    res.status(200).json({ data: token });
   } catch (error) {
     res.status(500).json(error.message);
   }
