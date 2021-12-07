@@ -19,6 +19,7 @@ const login = async (req, res) => {
     );
 
     console.log(token);
+    console.log("token is mad");
 
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
