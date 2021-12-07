@@ -16,6 +16,7 @@ const verifyToken = (req, res, next) => {
   // } catch (error) {
   //   res.status(401).send("Invalid Token");
   // }
+
   if (token) {
     jwt.verify(token, process.env.TOKEN_KEY, (err, decodedToken) => {
       if (err) {

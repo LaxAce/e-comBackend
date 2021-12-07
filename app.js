@@ -20,8 +20,8 @@ app.use(cookieParser());
 
 // routes
 app.use("/api/v1/users", users);
-app.use("/api/v1/products", verifyToken, products);
-app.use("/api/v1/carts", carts);
+app.use("/api/v1/products", products);
+app.use("/api/v1/carts", verifyToken, carts);
 app.use("/api/v1/login", login);
 
 // app.get("/api/v1/welcome", auth, (req, res) => {
