@@ -8,30 +8,33 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log(email, password);
-    console.log(!(email && password));
+    const user = await User.login(email, password);
+    res.status(200).json({ user });
 
-    if (!(email && password)) {
-      return res.status(400).json({ msg: "All inputs are required" });
-    }
+    // console.log(email, password);
+    // console.log(!(email && password));
 
-    console.log("yes");
-    const user = await User.findOne({ email });
+    // if (!(email && password)) {
+    //   return res.status(400).json({ msg: "All inputs are required" });
+    // }
 
-    if (user && user.comparePassword(password)) {
-      // console.log(user.comparePassword(password));
+    // console.log("yes");
+    // const user = await User.findOne({ email });
 
-      const token = jwt.sign(
-        { userId: user._id, email },
-        process.env.TOKEN_KEY,
-        { expiresIn: "2h" }
-      );
+    // if (user && user.comparePassword(password)) {
+    //   // console.log(user.comparePassword(password));
 
-      user.token = token;
+    //   const token = jwt.sign(
+    //     { userId: user._id, email },
+    //     process.env.TOKEN_KEY,
+    //     { expiresIn: "2h" }
+    //   );
 
-      return res.status(200).json({ user });
-    }
-    res.status(400).json({ msg: "Incorrect Password, Please try again" });
+    //   user.token = token;
+
+    //   return res.status(200).json({ user });
+    // }
+    // res.status(400).json({ msg: "Incorrect Password, Please try again" });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
